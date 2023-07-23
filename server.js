@@ -9,15 +9,17 @@ app.set("view engine", "pug"); //using pug for the view engine
 app.use(express.static("public")); //look at the static files in the public folder
 
 const redirect_uri = "http://localhost:3000/callback";
-const client_id = "23b732ee533240e5b8ebb81a6a445f7e";
-const client_secret = "452d990a8dc546b094ec83caa12bad8c";
+const client_id = "6d19b366fb414f83bc7833cc7bacbb93";
+const client_secret = "b264bde314e64cd7bb790121eff01d37";
 
 global.access_token;
 
+//renders the index page as the home page
 app.get("/", function (req, res) {
   res.render("index");
 });
 
+//When User clicks login they get redirected to the authorize page
 app.get("/authorize", (req, res) => {
   var auth_query_parameters = new URLSearchParams({
     response_type: "code",
@@ -31,6 +33,7 @@ app.get("/authorize", (req, res) => {
   );
 });
 
+//The callback page after user logs in and authorizes account
 app.get("/callback", async (req, res) => {
   const code = req.query.code;
   //console.log(code) --> check to see if it shows up in terminal
@@ -58,6 +61,7 @@ app.get("/callback", async (req, res) => {
   res.redirect("/dashboard");
 });
 
+//The endpoint to get data on the user
 async function getData(endpoint) {
   const response = await fetch("https://api.spotify.com/v1" + endpoint, { //get the data about the user using the endpoint
     method: "get",
@@ -67,7 +71,7 @@ async function getData(endpoint) {
   });
 
   const data = await response.json();
-  //console.log(data); --> print out the data about the user in the terminal
+  //console.log(data); //--> print out the data about the user in the terminal
   return data;
 }
 
