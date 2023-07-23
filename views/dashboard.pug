@@ -8,7 +8,8 @@ block content
       each p in playlists 
         tr 
           - var playlist_name = p.name
-          - var playlist_tracks = p.tracks.href 
+          - var playlist_tracks = p.tracks.href
+          - var playlist_id = p.id
 
           td #{playlist_name}
           td #{playlist_tracks}

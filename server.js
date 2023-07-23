@@ -79,6 +79,7 @@ async function getData(endpoint) {
 app.get("/dashboard", async (req, res) => {
   const userInfo = await getData("/me"); //endpoint call #1
   const playlists = await getData("/me/playlists"); //endpoint call #2 to get User's saved tracks
+  // const tracks = await getData("/me/playlists/");
 
   // res.render("dashboard", { user: userInfo }); //test out endpoint
   res.render("dashboard", { user: userInfo, playlists: playlists.items });
