@@ -78,28 +78,56 @@ async function getData(endpoint) {
 //getting data from the endpoint and displaying it on webpage
 app.get("/dashboard", async (req, res) => {
   const userInfo = await getData("/me"); //endpoint call #1
-  const playlists = await getData("/me/playlists?limit=3&offset=0"); //endpoint call #2 to get User's saved tracks
+  const playlists = await getData("/me/playlists"); //endpoint call #2 to get User's saved tracks
 
   // res.render("dashboard", { user: userInfo }); //test out endpoint
   res.render("dashboard", { user: userInfo, playlists: playlists.items });
 });
 
-//page to see recommendations based on the song link clicked
-app.get("/recommendations", async (req, res) => {
-  const artist_id = req.query.artist;
-  const track_id = req.query.track;
+// // Route to handle setting a new alarm
+// app.post('/set_alarm', async (req, res) => {
+//   const alarmTime = req.body.alarm_time;
+//   const selectedPlaylistId = req.body.playlist_id;
+//   const selectedSongId = req.body.song_id;
 
-  const params = new URLSearchParams({
-    seed_artist: artist_id,
-    seed_genres: "rock",
-    seed_tracks: track_id,
-  });
+//   // Save the alarm to the database
+//   const newAlarm = {
+//     id: uuidv4(), // Generate a unique ID for the alarm
+//     time: alarmTime,
+//     playlistId: selectedPlaylistId,
+//     songId: selectedSongId,
+//   };
+//   alarmsDB.push(newAlarm);
 
-  const data = await getData("/recommendations?" + params);
-  res.render("recommendation", { tracks: data.tracks });
-});
+//   // Call the alarm API to schedule the alarm
+//   try {
+//     await axios.post('https://your-alarm-api.com/schedule', newAlarm); // Replace with your actual alarm API endpoint
+//     res.redirect('/?success_message=Alarm%20set%20successfully!');
+//   } catch (error) {
+//     console.error('Error scheduling alarm:', error);
+//     res.redirect('/?error_message=Failed%20to%20schedule%20alarm.');
+//   }
+// });
+
+// // Check and trigger alarms every minute
+// setInterval(() => {
+//   const now = new Date().toLocaleTimeString([], { hour12: false, hour: '2-digit', minute: '2-digit' });
+//   alarmsDB.forEach((alarm, index) => {
+//     if (alarm.time === now) {
+//       playAlarm(alarm.playlistId, alarm.songId);
+//       alarmsDB.splice(index, 1); // Remove the triggered alarm from the database
+//     }
+//   });
+// }, 60000); // Check every minute
+
+// function playAlarm(selectedPlaylistId, selectedSongId) {
+//   console.log(`Alarm triggered! Playing playlist: ${selectedPlaylistId}, Song: ${selectedSongId}`);
+//   // Add code here to play the selected playlist/song using Spotify API or any other music library
+//   // You can also make an API call to your alarm API to stop the alarm once it's triggered
+// }
 
 //The port number is 3000
+
 let listener = app.listen(3000, function () {
   console.log(
     "Your app is listening on http://localhost:" + listener.address().port //message that is displayed
