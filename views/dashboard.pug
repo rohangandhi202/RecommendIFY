@@ -2,15 +2,21 @@ extends layout.pug
 
 block content 
     h1 Welcome to Alarm Clockify #{user.display_name}! 
-    h2 Set an alarm based on your Spotify Playlists
+    h2 Use your Spotify Playlists as your alarm 
 
-    //- table 
-    //-   each p in playlists 
-    //-     tr 
-          //- - var playist_name = p.playlists
+    table 
+      each p in playlists 
+        tr 
+          - var playlist_name = p.name
+          - var playlist_description = p.description
+          - var playlist_url = p.external_urls.spotify  
+
+          
+          td #{playlist_name}
+          td #{playlist_description}
+          td #{playlist_url}
 
 
-          //- td #{playlist_name}
           //- td: a(href='/recommendations?artist=' + artist_id+'&track='+track_id) #{track_name}
           //- td: a(href=track_preview) Preview
 
