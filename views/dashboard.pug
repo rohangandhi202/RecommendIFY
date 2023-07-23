@@ -3,17 +3,29 @@ extends layout.pug
 block content 
     h1 Welcome to Alarm Clockify #{user.display_name}! 
     h2 Set an alarm based on your Spotify Playlists
-    form(action="/set_alarm", method="post")
-      label(for="alarm_time") Alarm Time: 
-      input(type="time", id="alarm_time", name="alarm_time", required)
-      br
-      br
-      label(for="playlist_id") Select Playlist: 
-      select(id="playlist_id", name="playlist_id", required)
-      br
-      br
-      label(for="song_id") Select Song: 
-      select(id="song_id", name="song_id", required)
-      br
-      br
-      button(type="submit") Set Alarm
+
+    //- table 
+    //-   each p in playlists 
+    //-     tr 
+          //- - var playist_name = p.playlists
+
+
+          //- td #{playlist_name}
+          //- td: a(href='/recommendations?artist=' + artist_id+'&track='+track_id) #{track_name}
+          //- td: a(href=track_preview) Preview
+
+
+    //- form(action="/set_alarm", method="post")
+    //-   label(for="alarm_time") Alarm Time: 
+    //-   input(type="time", id="alarm_time", name="alarm_time", required)
+    //-   br
+    //-   br
+    //-   label(for="playlist_id") Select Playlist: 
+    //-   select(id="playlist_id", name="playlist_id", required)
+    //-   br
+    //-   br
+    //-   label(for="song_id") Select Song: 
+    //-   select(id="song_id", name="song_id", required)
+    //-   br
+    //-   br
+    //-   button(type="submit") Set Alarm
