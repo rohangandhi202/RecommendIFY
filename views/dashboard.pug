@@ -14,17 +14,20 @@ block content
           td #{playlist_tracks}
 
 
-    //- form(action="/set_alarm", method="post")
-    //-   label(for="alarm_time") Alarm Time: 
-    //-   input(type="time", id="alarm_time", name="alarm_time", required)
-    //-   br
-    //-   br
-    //-   label(for="playlist_id") Select Playlist: 
-    //-   select(id="playlist_id", name="playlist_id", required)
-    //-   br
-    //-   br
-    //-   label(for="song_id") Select Song: 
-    //-   select(id="song_id", name="song_id", required)
-    //-   br
-    //-   br
-    //-   button(type="submit") Set Alarm
+    form(action="/set_alarm", method="post")
+      label(for="alarm_time") Alarm Time: 
+      input(type="time", id="alarm_time", name="alarm_time", required)
+      br
+      br
+      label(for="playlist_id") Select Playlist: 
+      select(id="playlist_id", name="playlist_id", required)
+        each playlist in playlists
+          option(value=playlist.id) #{playlist.name}
+      br
+      br
+      label(for="song_id") Select Song: 
+      select(id="song_id", name="song_id", required)
+        // By default, no songs are populated. Songs will be loaded based on the selected playlist using JavaScript.
+      br
+      br
+      button(type="submit") Set Alarm
