@@ -8,17 +8,10 @@ block content
       each p in playlists 
         tr 
           - var playlist_name = p.name
-          - var playlist_description = p.description
-          - var playlist_url = p.external_urls.spotify  
+          - var playlist_tracks = p.tracks.href 
 
-          
           td #{playlist_name}
-          td #{playlist_description}
-          td #{playlist_url}
-
-
-          //- td: a(href='/recommendations?artist=' + artist_id+'&track='+track_id) #{track_name}
-          //- td: a(href=track_preview) Preview
+          td #{playlist_tracks}
 
 
     //- form(action="/set_alarm", method="post")
