@@ -24,11 +24,11 @@ block content
       select(id="playlist_id", name="playlist_id", required)
         each playlist in playlists
           option(value=playlist.id) #{playlist.name}
-      br
-      br
-      label(for="song_id") Select Song: 
-      select(id="song_id", name="song_id", required)
-        // By default, no songs are populated. Songs will be loaded based on the selected playlist using JavaScript.
+      //- br
+      //- br
+      //- label(for="song_id") Select Song: 
+      //- select(id="song_id", name="song_id", required)
+      //-   // By default, no songs are populated. Songs will be loaded based on the selected playlist using JavaScript.
       br
       br
       button(type="submit") Set Alarm

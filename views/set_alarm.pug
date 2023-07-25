@@ -1,0 +1,62 @@
+extends layout.pug
+
+block content 
+    h1 Set Alarm
+    form(action="/set_alarm", method="post")
+      label(for="alarm_time") Alarm Time: 
+      input(type="time", id="alarm_time", name="alarm_time", required)
+      br
+      br
+      label(for="playlist_id") Select Playlist: 
+      select(id="playlist_id", name="playlist_id", required)
+        each playlist in playlists
+          option(value=playlist.id) #{playlist.name}
+      br
+      br
+      label(for="song_id") Select Song: 
+      select(id="song_id", name="song_id", required)
+        // By default, no songs are populated. Songs will be loaded based on the selected playlist using JavaScript.
+      br
+      br
+      button(type="submit") Set Alarm
+
+    script.
+      const playlistSelect = document.getElementById('playlist_id');
+      const songSelect = document.getElementById('song_id');
+
+      // Function to populate the songs based on the selected playlist
+      function populateSongs(selectedPlaylistId) {
+        // Fetch songs for the selected playlist using JavaScript/Spotify API
+        // Replace this with your actual code to fetch songs for the selected playlist
+        // For demonstration purposes, we'll use a sample object to populate the songs.
+        const songs = {
+          'playlist1': [
+            { id: 'song1', name: 'Song 1' },
+            { id: 'song2', name: 'Song 2' }
+          ],
+          'playlist2': [
+            { id: 'song3', name: 'Song 3' },
+            { id: 'song4', name: 'Song 4' }
+          ]
+        };
+
+        // Clear previous song options
+        songSelect.innerHTML = '';
+
+        // Populate song options based on the selected playlist
+        const selectedSongs = songs[selectedPlaylistId];
+        if (selectedSongs) {
+          selectedSongs.forEach(song => {
+            const option = document.createElement('option');
+            option.value = song.id;
+            option.innerText = song.name;
+            songSelect.appendChild(option);
+          });
+        }
+      }
+
+      // Event listener to handle changes in the playlist select element
+      playlistSelect.addEventListener('change', () => {
+        const selectedPlaylistId = playlistSelect.value;
+        populateSongs(selectedPlaylistId);
+      });
