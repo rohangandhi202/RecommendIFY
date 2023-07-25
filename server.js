@@ -1,9 +1,7 @@
 import express from "express";
 import fetch from "node-fetch";
-import bodyParser from "body-parser"; // Import body-parser
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: true })); // Use body-parser middleware
 
 app.set("views", "./views"); //use the views folder
 app.set("view engine", "pug"); //using pug for the view engine
@@ -11,17 +9,15 @@ app.set("view engine", "pug"); //using pug for the view engine
 app.use(express.static("public")); //look at the static files in the public folder
 
 const redirect_uri = "http://localhost:3000/callback";
-const client_id = "6d19b366fb414f83bc7833cc7bacbb93";
-const client_secret = "b264bde314e64cd7bb790121eff01d37";
+const client_id = "23b732ee533240e5b8ebb81a6a445f7e";
+const client_secret = "452d990a8dc546b094ec83caa12bad8c";
 
 global.access_token;
 
-//renders the index page as the home page
 app.get("/", function (req, res) {
   res.render("index");
 });
 
-//When User clicks login they get redirected to the authorize page
 app.get("/authorize", (req, res) => {
   var auth_query_parameters = new URLSearchParams({
     response_type: "code",
@@ -35,7 +31,6 @@ app.get("/authorize", (req, res) => {
   );
 });
 
-//The callback page after user logs in and authorizes account
 app.get("/callback", async (req, res) => {
   const code = req.query.code;
   //console.log(code) --> check to see if it shows up in terminal
@@ -63,7 +58,6 @@ app.get("/callback", async (req, res) => {
   res.redirect("/dashboard");
 });
 
-//The endpoint to get data on the user
 async function getData(endpoint) {
   const response = await fetch("https://api.spotify.com/v1" + endpoint, { //get the data about the user using the endpoint
     method: "get",
@@ -73,18 +67,32 @@ async function getData(endpoint) {
   });
 
   const data = await response.json();
-  console.log(data); //--> print out the data about the user in the terminal
+  //console.log(data); --> print out the data about the user in the terminal
   return data;
 }
 
 //getting data from the endpoint and displaying it on webpage
 app.get("/dashboard", async (req, res) => {
   const userInfo = await getData("/me"); //endpoint call #1
-  const playlists = await getData("/me/playlists"); //endpoint call #2 to get User's saved tracks
-  // const tracks = await getData("/me/playlists/");
+  const tracks = await getData("/me/tracks?limit=10"); //endpoint call #2 to get User's saved tracks
 
-  // res.render("dashboard", { user: userInfo }); //test out endpoint
-  res.render("dashboard", { user: userInfo, playlists: playlists.items });
+  //res.render("dashboard", { user: userInfo }); //test out endpoint
+  res.render("dashboard", { user: userInfo, tracks: tracks.items });
+});
+
+//page to see recommendations based on the song link clicked
+app.get("/recommendations", async (req, res) => {
+  const artist_id = req.query.artist;
+  const track_id = req.query.track;
+
+  const params = new URLSearchParams({
+    seed_artist: artist_id,
+    seed_genres: "rock",
+    seed_tracks: track_id,
+  });
+
+  const data = await getData("/recommendations?" + params);
+  res.render("recommendation", { tracks: data.tracks });
 });
 
 //The port number is 3000
