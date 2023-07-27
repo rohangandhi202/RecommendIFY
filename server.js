@@ -67,14 +67,14 @@ async function getData(endpoint) {
   });
 
   const data = await response.json();
-  //console.log(data); --> print out the data about the user in the terminal
+  // console.log(data);//--> print out the data about the user in the terminal
   return data;
 }
 
 //getting data from the endpoint and displaying it on webpage
 app.get("/dashboard", async (req, res) => {
   const userInfo = await getData("/me"); //endpoint call #1
-  const tracks = await getData("/me/tracks?limit=10"); //endpoint call #2 to get User's saved tracks
+  const tracks = await getData("/me/tracks?limit=20"); //endpoint call #2 to get User's saved tracks
 
   //res.render("dashboard", { user: userInfo }); //test out endpoint
   res.render("dashboard", { user: userInfo, tracks: tracks.items });
@@ -87,12 +87,18 @@ app.get("/recommendations", async (req, res) => {
 
   const params = new URLSearchParams({
     seed_artist: artist_id,
-    seed_genres: "rock",
     seed_tracks: track_id,
   });
 
   const data = await getData("/recommendations?" + params);
-  res.render("recommendation", { tracks: data.tracks });
+  res.render("songrecommendation", { tracks: data.tracks });
+});
+
+app.get("/artists", async (req, res) => {
+  const id = req.query.artist;
+
+  const data = await getData("/artists/" + id + "/related-artists");
+  res.render("artistrecommendation", { artists: data.artists });
 });
 
 //The port number is 3000

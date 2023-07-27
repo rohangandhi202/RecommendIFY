@@ -1,0 +1,13 @@
+extends layout.pug
+    
+block content
+    h1 Recommendations based on artist
+
+    table 
+      each a in artists 
+        tr 
+          - var artist_name = a.artists.name
+          - var artist_popularity = a.popularity
+
+          td #{artist_name}
+          td #{artist_popularity}
