@@ -3,7 +3,8 @@ extends layout.pug
 block content
     h1 Welcome #{user.display_name}! 
     h2 Here are your 20 most recently liked songs
-    h2 Click on a song link to see song recommendations
+    h2 Click on a song to see song recommendations
+    h2 Click on an artist link to see similar artists 
     img(src=user.images[0].url, class='circular_image')
     
     table 
